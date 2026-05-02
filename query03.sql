@@ -1,18 +1,15 @@
 select
     parcels.address as parcel_address,
-    nearest.stop_name,
-    round(
-        st_distance(parcels.geog, nearest.geog)::numeric,
-        2
-    ) as distance
+    stops.stop_name,
+    round(st_distance(parcels.geog, stops.geog)::numeric, 2) as distance
 from phl.pwd_parcels as parcels
 cross join
     lateral (
         select
-            bs.stop_name,
-            bs.geog
-        from septa.bus_stops as bs
-        order by st_distance(parcels.geog, bs.geog)
+            bus_stops.stop_name,
+            bus_stops.geog
+        from septa.bus_stops as bus_stops
+        order by parcels.geog <-> bus_stops.geog
         limit 1
-    ) as nearest
+    ) as stops
 order by distance desc
