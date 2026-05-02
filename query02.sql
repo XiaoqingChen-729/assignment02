@@ -1,5 +1,5 @@
 with
-
+ 
 septa_bus_stop_blockgroups as (
     select
         stops.stop_id,
@@ -9,7 +9,7 @@ septa_bus_stop_blockgroups as (
         on st_dwithin(stops.geog, bg.geog, 800)
     where bg.geoid like '42101%'
 ),
-
+ 
 septa_bus_stop_surrounding_population as (
     select
         stops.stop_id,
@@ -19,6 +19,7 @@ septa_bus_stop_surrounding_population as (
     group by stops.stop_id
     having sum(pop.total) > 500
 )
+ 
 select
     stops.stop_id,
     stops.stop_name,

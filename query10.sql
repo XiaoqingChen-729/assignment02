@@ -9,6 +9,7 @@ rail_stop_geog as (
         st_makepoint(stop_lon, stop_lat)::geography as geog
     from septa.rail_stops
 )
+
 select
     rs.stop_id::integer as stop_id,
     rs.stop_name,
@@ -18,8 +19,9 @@ select
 from rail_stop_geog as rs
 cross join lateral (
     select
-        round(st_distance(rs.geog, p.geog)::numeric) || ' meters ' ||
-        case
+        round(st_distance(rs.geog, p.geog)::numeric)
+        || ' meters ' ||
+        || case
             when degrees(st_azimuth(
                 rs.geog::geometry,
                 st_centroid(p.geog::geometry)

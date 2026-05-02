@@ -1,11 +1,5 @@
-/*
-  Which bus stop has the largest population within 800 meters? As a rough
-  estimation, consider any block group that intersects the buffer as being part
-  of the 800 meter buffer.
-*/
-
 with
-
+ 
 septa_bus_stop_blockgroups as (
     select
         stops.stop_id,
@@ -14,7 +8,7 @@ septa_bus_stop_blockgroups as (
     inner join census.blockgroups_2020 as bg
         on st_dwithin(stops.geog, bg.geog, 800)
 ),
-
+ 
 septa_bus_stop_surrounding_population as (
     select
         stops.stop_id,
@@ -23,6 +17,7 @@ septa_bus_stop_surrounding_population as (
     inner join census.population_2020 as pop using (geoid)
     group by stops.stop_id
 )
+
 select
     stops.stop_id,
     stops.stop_name,

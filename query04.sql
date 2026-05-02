@@ -1,5 +1,5 @@
 with
-
+ 
 shape_geoms as (
     select
         shape_id,
@@ -12,7 +12,7 @@ shape_geoms as (
     from septa.bus_shapes
     group by shape_id
 ),
-
+ 
 trip_lengths as (
     select
         t.route_id,
@@ -21,7 +21,7 @@ trip_lengths as (
     from septa.bus_trips as t
     inner join shape_geoms as sg using (shape_id)
 ),
-
+ 
 ranked_trips as (
     select
         route_id,
@@ -33,6 +33,7 @@ ranked_trips as (
         ) as rn
     from trip_lengths
 )
+ 
 select
     r.route_short_name,
     t.trip_headsign,
