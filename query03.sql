@@ -12,7 +12,7 @@ cross join
             bs.stop_name,
             bs.geog
         from septa.bus_stops as bs
-        order by parcels.geog::geometry <-> bs.geog::geometry
+        order by st_distance(parcels.geog, bs.geog)
         limit 1
     ) as nearest
 order by distance desc
