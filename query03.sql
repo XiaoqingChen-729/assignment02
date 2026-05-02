@@ -6,12 +6,13 @@ select
         2
     ) as distance
 from phl.pwd_parcels as parcels
-cross join lateral (
-    select
-        stop_name,
-        geog
-    from septa.bus_stops
-    order by parcels.geog::geometry <-> geog::geometry
-    limit 1
-) as nearest
+cross join
+    lateral (
+        select
+            bs.stop_name,
+            bs.geog
+        from septa.bus_stops as bs
+        order by parcels.geog::geometry <-> bs.geog::geometry
+        limit 1
+    ) as nearest
 order by distance desc
