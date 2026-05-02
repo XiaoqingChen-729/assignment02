@@ -1,8 +1,3 @@
-/*
-  Top five neighborhoods by wheelchair accessibility metric.
-  See query05.sql for metric definition.
-*/
-
 select
     n.mapname as neighborhood_name,
     round(

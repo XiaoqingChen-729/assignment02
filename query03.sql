@@ -11,7 +11,7 @@ cross join lateral (
         stop_name,
         geog
     from septa.bus_stops
-    order by parcels.geog <-> geog
+    order by parcels.geog::geometry <-> geog::geometry
     limit 1
 ) as nearest
 order by distance desc

@@ -42,6 +42,13 @@ create index if not exists septa_bus_stops__geog__idx
 on septa.bus_stops using gist
 (geog);
 
+-- Functional geometry index used by the <-> KNN operator in query03.
+-- The KNN operator requires geometry type; casting geog::geometry at query time
+-- only hits an index if the index is built on the same cast expression.
+create index if not exists septa_bus_stops__geom__idx
+on septa.bus_stops using gist
+((geog::geometry));
+
 -- Add a geography column to septa.rail_stops for spatial queries (query10).
 alter table septa.rail_stops
 add column if not exists geog geography;

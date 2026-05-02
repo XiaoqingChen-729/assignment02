@@ -9,7 +9,6 @@ rail_stop_geog as (
         st_makepoint(stop_lon, stop_lat)::geography as geog
     from septa.rail_stops
 )
-
 select
     rs.stop_id::integer as stop_id,
     rs.stop_name,
